@@ -1,0 +1,71 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  // suninistros
+  .current-menu-item {
+    a {
+      color: #ff8851 !important;
+    }
+  }
+  #Header-jcc {
+    @media (min-width: 768px) and (max-width: 991px) {
+      padding-inline: 0;
+    }
+  }
+  #menu-main-menu {
+    .menu-item {
+      a {
+        @media (min-width: 768px) and (max-width: 991px) {
+          padding-inline: 7px;
+          font-size: 15px;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1199px) {
+        margin-inline: 0;
+      }
+    }
+  }
+  .elementor-hidden-mobile:has(
+      .elementor-widget-artech-text-editor .phone-header
+    ) {
+    @media (min-width: 768px) and (max-width: 1199px) {
+      display: flex !important;
+    }
+  }
+}
+
+/*
+body.home {
+  header {
+    overflow-x: hidden;
+    background-color: transparent;
+    &.v-sticky {
+      .logo-pc {
+        .elementor-widget-container {
+          @media (min-width: 768px) {
+            display: flex;
+            align-items: center;
+          }
+        }
+        img {
+          @media (min-width: 768px) {
+            width: 186px;
+          }
+        }
+      }
+      @media (min-width: 768px) {
+        background-color: $azul-sorsa;
+      }
+    }
+
+    @media (max-width: 767px) {
+      background-color: $azul-sorsa;
+    }
+  }
+}
+*/

@@ -1,0 +1,20 @@
+#smooth-wrapper {
+  overflow-x: hidden !important;
+}
+
+.btn-sorsa {
+  a {
+    &:hover {
+      background-color: $amarillo-sorsa !important;
+      border-color: $amarillo-sorsa !important;
+    }
+  }
+}
+
+//
+.progress-wrap svg.progress-circle path {
+  stroke: $amarillo-sorsa !important;
+}
+.progress-wrap::after {
+  color: $amarillo-sorsa !important;
+}
