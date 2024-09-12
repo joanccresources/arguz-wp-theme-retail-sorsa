@@ -18,3 +18,8 @@
 .progress-wrap::after {
   color: $amarillo-sorsa !important;
 }
+
+.hidden-element {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

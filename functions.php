@@ -28,6 +28,7 @@ function artech_child_theme_styles()
 }
 
 require_once get_stylesheet_directory() . '/shortcodes/shortcode-home.php';
+require_once get_stylesheet_directory() . '/shortcodes/shortcode-talleres.php';
 
 // 
 require_once get_stylesheet_directory() . '/helpers/agenda/talleres.php';
