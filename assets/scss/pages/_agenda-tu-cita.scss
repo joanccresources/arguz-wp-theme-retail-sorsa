@@ -1,0 +1,37 @@
+#agenda-tu-cita {
+  margin-top: 80px;
+
+  #reserva {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    &.loader {
+      .reserva-form {
+        opacity: 0.25;
+        pointer-events: none;
+      }
+      .reserva-image-loader {
+        display: block;
+        // width: 60px;
+      }
+    }
+    .reserva-form {
+      width: 100%;
+    }
+    .reserva-image-loader {
+      display: none;
+      position: absolute;
+    }
+
+    .flatpickr-input {
+      background-color: #fff;
+      // &[disabled="false"] {
+      //   background-color: #fff;
+      // }
+      &:disabled {
+        background-color: #e9ecef;
+      }
+    }
+  }
+}
