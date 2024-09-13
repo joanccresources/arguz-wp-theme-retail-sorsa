@@ -4,9 +4,16 @@
 
 .btn-sorsa {
   a {
+    fill: #ffffff !important;
+    border-style: solid !important;
+    border-width: 2px 2px 2px 2px !important;
+    border-color: #000000 !important;
+    border-radius: 50rem 50rem 50rem 50rem !important;
+    padding: 10px 35px 10px 35px !important;
     &:hover {
       background-color: $amarillo-sorsa !important;
       border-color: $amarillo-sorsa !important;
+      color: white !important;
     }
   }
 }

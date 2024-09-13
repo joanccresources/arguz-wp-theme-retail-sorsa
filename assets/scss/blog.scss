@@ -1,0 +1,71 @@
+.blog-wrapper {
+  > .container:nth-of-type(1) {
+    margin-top: 100px;
+    @media (max-width: 767px) {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    padding-top: 50px;
+  }
+}
+
+.sidebar.sidebar-2 {
+  // Type keyword here
+  #search-1 {
+    display: none !important;
+  }
+  // Buscar
+  #block-2 {
+    display: none !important;
+  }
+
+  // social
+  #themescamp_about-1 {
+    display: none !important;
+  }
+
+  // Entradas recientes
+  #block-3 {
+    display: none !important;
+  }
+  // Comentarios recientes
+  #block-4 {
+    display: none !important;
+  }
+
+  // Archivos
+  #block-5 {
+    display: none !important;
+  }
+}
+
+// Comentarios
+#respond {
+  display: none !important;
+}
+
+// siguiente - anterior
+.img-pagination {
+  display: none !important;
+}
+
+// fecha
+.post-date {
+  display: none !important;
+}
+
+// cuantos comentarios y quien lo publico
+.post-detail {
+  display: none !important;
+}
+
+.post-style-3 .entry-header {
+  @media (max-width: 767px) {
+    padding-inline: 30px !important;
+  }
+}
+
+.post-category {
+  pointer-events: none !important;
+}

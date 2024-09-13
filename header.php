@@ -7,6 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
 	<link rel="stylesheet" href="<?= get_stylesheet_directory_uri() ?>/assets/css/main.css?v=<?= time() ?>">
+	<?php if (is_single() && 'post' === get_post_type()): ?>
+		<link rel="stylesheet" href="<?= get_stylesheet_directory_uri() ?>/assets/css/blog.css?v=<?= time() ?>">
+	<?php endif; ?>
 </head>
 
 <body <?php body_class(); ?>>

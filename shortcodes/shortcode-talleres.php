@@ -3,7 +3,10 @@ function shortcode_talleres_sorsa_cards($atts)
 {
   // Inicia la salida del buffer
   ob_start();
-
+  $atts = shortcode_atts(array(
+    'post' => '', // Atributo opcional para el código del post
+    'title' => '',
+  ), $atts, 'talleres_sorsa_cards');
 ?>
   <div
     class="elementor-element elementor-element-76e0584 elementor-widget elementor-widget-artech-blog-card"
@@ -16,10 +19,27 @@ function shortcode_talleres_sorsa_cards($atts)
       <div class="artech-blog-card">
         <?php
         // Consulta personalizada para obtener los posts del custom post type "punto-de-venta"
-        $query = new WP_Query(array(
+        $args = array(
           'post_type' => 'punto_de_venta',
           'posts_per_page' => -1
-        ));
+        );
+        // $query = new WP_Query(array(
+        //   'post_type' => 'punto_de_venta',
+        //   'posts_per_page' => -1
+        // ));
+
+        // Si se proporciona un código de post, agregar la condición de post__in
+        if (!empty($atts['post'])) {
+          // $args['post__in'] = array($atts['post']);
+
+          // Convertir los códigos de post a un array
+          $post_ids = array_map('trim', explode(',', $atts['post']));
+          $post_ids = array_filter($post_ids, 'is_numeric'); // Asegurarse de que solo contenga valores numéricos
+          $args['post__in'] = $post_ids;
+          $args['orderby'] = 'post__in'; // Mantener el orden de los IDs especificados
+        }
+
+        $query = new WP_Query($args);
 
         // Verifica si hay posts
         if ($query->have_posts()):
@@ -28,9 +48,25 @@ function shortcode_talleres_sorsa_cards($atts)
 
             $post_id = get_the_ID();
 
+            // Obtener el título del post
+            $title = get_the_title();
+            
+            if (!empty($atts['title'])) {
+              // Procesar el título para quitar la primera parte ("Agencia") y agregar el prefijo
+              $title = trim($title); // Eliminar espacios alrededor
+              $post_title_parts = explode(' ', $title, 2); // Dividir en dos partes
+              if (count($post_title_parts) > 1) {
+                $title = esc_html($atts['title']) . ' ' . $post_title_parts[1]; // Eliminar la primera parte y agregar el prefijo
+              } else {
+                $title = esc_html($atts['title']) . ' ' . $title; // Si el título solo tiene una parte
+              }
+            } else {
+              $title = esc_html($title); // Si no se proporciona un título, usar el título original
+            }
+
             // Obtiene los datos necesarios
             $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); // Imagen destacada
-            $title = get_the_title(); // Título del post
+            // $title = get_the_title(); // Título del post
             $content = get_the_content(); // Contenido del post
 
             // $url_mapa = get_field('url_mapa'); // Campo personalizado "url_mapa"
@@ -74,7 +110,7 @@ function shortcode_talleres_sorsa_cards($atts)
 
                   <div class="elementor-element elementor-element-6b0f5ba e-transform btn-sorsa elementor-align-left elementor-widget elementor-widget-artech-button-animate">
                     <div class="elementor-widget-container">
-                      <a href="<?= esc_url($url_mapa); ?>" class="artech-button  fade-border-effect" target="_blank">
+                      <a href="<?= esc_url($url_mapa); ?>" class="artech-button fade-border-effect" target="_blank">
                         <span class="artech-button-content-wrapper">
                           <span class="artech-button-text">
                             Ver en google maps </span>
