@@ -1,0 +1,124 @@
+#home {
+  .home-hero {
+    .butn {
+      border-radius: 50rem 50rem 50rem 50rem;
+      padding: 10px 35px 10px 35px;
+      background: #000000;
+    }
+    // .header-slider{
+    //   height: 600px;
+    // }
+    .header-card {
+      padding-bottom: 125px;
+      @media (min-width: 1400px) {
+        padding-top: 125px;
+        padding-bottom: 175px;
+      }
+    }
+    .info {
+      min-height: 266px;
+    }
+    .links {
+      display: none !important;
+    }
+    .services-links {
+      display: none !important;
+    }
+    .rotate-box {
+      display: none !important;
+    }
+
+    img.shap {
+      display: none !important;
+    }
+    .butn {
+      &:hover {
+        background-color: $amarillo-sorsa !important;
+        border-color: $amarillo-sorsa !important;
+      }
+    }
+  }
+  .home-valores {
+    img[src*="feat_shap.png"] {
+      // @media (max-width: 767px) {
+      @media (max-width: 1199px) {
+        display: none !important;
+      }
+    }
+
+    // .logo-valor {
+    //   .elementor-widget-container {
+    //     margin-bottom: 0;
+    //   }
+    // }
+    .card-valores {
+      &__content {
+        border: 1px solid #00000029;
+        border-radius: 12px;
+        // @media (max-width: 767px) {
+        @media (max-width: 991px) {
+          // margin-bottom: 0;
+          // padding-bottom: 0px;
+        }
+        @media (max-width: 1024px) {
+          display: flex !important;
+          position: relative !important;
+        }
+      }
+      &:nth-last-of-type(1) {
+        .card-valores__content {
+          @media (min-width: 992px) {
+            margin-left: 15px;
+          }
+        }
+      }
+    }
+  }
+  .home-valvoline {
+    .logo-valvoline {
+      .elementor-image {
+        // height: 410px;
+        height: 337px;
+        text-align: center;
+        img {
+          width: auto;
+        }
+
+        @media (min-width: 768px) {
+          height: 410px;
+        }
+      }
+    }
+  }
+  .home-marcas {
+    img {
+      height: 50px;
+      width: auto;
+      max-width: 100%;
+    }
+    .btn-sorsa {
+      img[src*="arrow_wh"] {
+        width: 30px;
+        height: auto;
+      }
+    }
+  }
+  .home-portafolio {
+    .sorsa-artech-portfolio-content {
+      li:has(#pills-all-tab) {
+        // display: none !important;
+      }
+    }
+  }
+
+  // .home-cta {
+  //   .circulo-whatsapp {
+  //     @media (max-width: 991px) {
+  //       height: 140px;
+  //     }
+  //   }
+  // }
+}
+// card-valores__content
+// border: 1px solid #00000029;
+// border-radius: 12px;
