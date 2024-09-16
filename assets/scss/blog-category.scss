@@ -1,0 +1,47 @@
+.blog-wrapper.blog-style-1 {
+  padding-top: 150px;
+  @media (max-width: 767px) {
+    padding-top: 50px;
+  }
+}
+
+.img-post img {
+  width: 100%;
+}
+
+.post-detail {
+  display: none;
+  + .spc-20.clearfix {
+    display: none;
+  }
+}
+
+.sidebar.sidebar-2 {
+  // Type keyword here
+  #search-1 {
+    display: none !important;
+  }
+  // Buscar
+  #block-2 {
+    display: none !important;
+  }
+
+  // social
+  #themescamp_about-1 {
+    display: none !important;
+  }
+
+  // Entradas recientes
+  #block-3 {
+    display: none !important;
+  }
+  // Comentarios recientes
+  #block-4 {
+    display: none !important;
+  }
+
+  // Archivos
+  #block-5 {
+    display: none !important;
+  }
+}
