@@ -226,9 +226,12 @@
       line-height: 1.2;
     }
     &__title {
-      font-size: 32px;
+      font-size: 26px;
       margin-bottom: 0;
       font-weight: 700;
+      @media (min-width: 1400px) {
+        font-size: 32px;
+      }
     }
     &__txtsmall {
       font-size: 16px;
