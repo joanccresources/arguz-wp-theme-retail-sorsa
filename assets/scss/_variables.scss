@@ -1,3 +1,133 @@
 $azul-sorsa: #00509e;
 $gris-sorsa-01: #f0f0f0;
 $amarillo-sorsa: #f7a41d;
+
+.text-azul-sorsa {
+  color: #00509e;
+}
+.bg-azul-sorsa {
+  background-color: #00509e;
+}
+
+.text-gris-sorsa-01 {
+  color: #f0f0f0;
+}
+.bg-gris-sorsa-01 {
+  color: #f0f0f0;
+}
+
+.text-amarillo-sorsa {
+  color: #f7a41d;
+}
+.bg-amarillo-sorsa {
+  background-color: #f7a41d;
+}
+
+@media (min-width: 768px) {
+  .text-md-azul-sorsa {
+    color: #00509e;
+  }
+  .bg-md-azul-sorsa {
+    background-color: #00509e;
+  }
+
+  .text-md-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+  .bg-md-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+
+  .text-md-amarillo-sorsa {
+    color: #f7a41d;
+  }
+  .bg-md-amarillo-sorsa {
+    background-color: #f7a41d;
+  }
+}
+
+@media (min-width: 992px) {
+  .text-lg-azul-sorsa {
+    color: #00509e;
+  }
+  .bg-lg-azul-sorsa {
+    background-color: #00509e;
+  }
+
+  .text-lg-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+  .bg-lg-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+
+  .text-lg-amarillo-sorsa {
+    color: #f7a41d;
+  }
+  .bg-lg-amarillo-sorsa {
+    background-color: #f7a41d;
+  }
+}
+
+@media (min-width: 1200px) {
+  .text-xl-azul-sorsa {
+    color: #00509e;
+  }
+  .bg-xl-azul-sorsa {
+    background-color: #00509e;
+  }
+
+  .text-xl-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+  .bg-xl-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+
+  .text-xl-amarillo-sorsa {
+    color: #f7a41d;
+  }
+  .bg-xl-amarillo-sorsa {
+    background-color: #f7a41d;
+  }
+}
+
+@media (min-width: 1400px) {
+  .text-xxl-azul-sorsa {
+    color: #00509e;
+  }
+  .bg-xxl-azul-sorsa {
+    background-color: #00509e;
+  }
+
+  .text-xxl-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+  .bg-xxl-gris-sorsa-01 {
+    color: #f0f0f0;
+  }
+
+  .text-xxl-amarillo-sorsa {
+    color: #f7a41d;
+  }
+  .bg-xxl-amarillo-sorsa {
+    background-color: #f7a41d;
+  }
+}
+
+.btn-cta {
+  background-color: $amarillo-sorsa;
+  font-size: 18px;
+  color: #fff;
+  display: flex !important;
+  align-items: center;
+  padding: 18px 25px;
+  column-gap: 10px;
+  font-weight: 700;
+  font-style: italic;
+  transition: all 0.25s;
+  &:hover {
+    color: white;
+    opacity: 0.9;
+  }
+}

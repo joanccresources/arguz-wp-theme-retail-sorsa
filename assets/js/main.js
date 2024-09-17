@@ -42,3 +42,16 @@ document.addEventListener("scroll", addClassStickyHeaderHome);
 // addEventListener("DOMContentLoaded", () => {
 //   desabilitarLinks();
 // });
+
+const initDomReady = () => {
+  // #home-2 .home-hero .info h1
+  const title = document.querySelector("#home-2 .home-hero .info h1");
+  if (title) {
+    title.innerHTML =
+      "<span class='d-inline-block'>PROFESIONALES EN EL</span><span class='d-inline-block text-amarillo-sorsa'>SECTOR AUTOMOTRIZ</span>";
+  }
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  initDomReady();
+});

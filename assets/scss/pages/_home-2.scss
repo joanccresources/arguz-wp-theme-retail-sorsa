@@ -1,0 +1,283 @@
+#home-2 {
+  .home-hero {
+    .butn {
+      border-radius: 50rem 50rem 50rem 50rem;
+      padding: 10px 35px 10px 35px;
+      background: #000000;
+    }
+    // .header-slider{
+    //   height: 600px;
+    // }
+    .header-card {
+      padding-bottom: 125px;
+      @media (min-width: 1400px) {
+        padding-top: 125px;
+        padding-bottom: 175px;
+      }
+    }
+    .info {
+      min-height: 306px;
+      display: flex;
+      align-items: end;
+      .butn {
+        display: none !important;
+      }
+    }
+    .links {
+      display: none !important;
+    }
+    .services-links {
+      display: none !important;
+    }
+    .rotate-box {
+      display: none !important;
+    }
+
+    img.shap {
+      display: none !important;
+    }
+    .butn {
+      &:hover {
+        background-color: $amarillo-sorsa !important;
+        border-color: $amarillo-sorsa !important;
+      }
+    }
+  }
+
+  // .home-valores {
+  //   img[src*="feat_shap.png"] {
+  //     // @media (max-width: 767px) {
+  //     @media (max-width: 1199px) {
+  //       display: none !important;
+  //     }
+  //   }
+
+  //   // .logo-valor {
+  //   //   .elementor-widget-container {
+  //   //     margin-bottom: 0;
+  //   //   }
+  //   // }
+  //   .card-valores {
+  //     &__content {
+  //       border: 1px solid #00000029;
+  //       border-radius: 12px;
+  //       // @media (max-width: 767px) {
+  //       @media (max-width: 991px) {
+  //         // margin-bottom: 0;
+  //         // padding-bottom: 0px;
+  //       }
+  //       @media (max-width: 1024px) {
+  //         display: flex !important;
+  //         position: relative !important;
+  //       }
+  //     }
+  //     &:nth-last-of-type(1) {
+  //       .card-valores__content {
+  //         @media (min-width: 992px) {
+  //           margin-left: 15px;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  .home-valvoline {
+    .logo-valvoline {
+      .elementor-image {
+        // height: 410px;
+        height: 337px;
+        text-align: center;
+        img {
+          width: auto;
+        }
+
+        @media (min-width: 768px) {
+          height: 410px;
+        }
+      }
+    }
+  }
+  .home-marcas {
+    img {
+      height: 50px;
+      width: auto;
+      max-width: 100%;
+    }
+    .btn-sorsa {
+      img[src*="arrow_wh"] {
+        width: 30px;
+        height: auto;
+      }
+    }
+  }
+  .home-portafolio {
+    .sorsa-artech-portfolio-content {
+      li:has(#pills-all-tab) {
+        // display: none !important;
+      }
+    }
+  }
+
+  // .home-cta {
+  //   .circulo-whatsapp {
+  //     @media (max-width: 991px) {
+  //       height: 140px;
+  //     }
+  //   }
+  // }
+  // Home servicios
+  .content-card-servicio {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    margin-top: 0;
+    @media (min-width: 768px) {
+      margin-top: 3px;
+    }
+    @media (min-width: 992px) {
+    }
+    @media (min-width: 1200px) {
+      margin-top: 0;
+      flex-wrap: nowrap;
+      column-gap: 7px;
+    }
+    @media (min-width: 1400px) {
+    }
+  }
+  .home-card-servicio {
+    height: 250px;
+    min-height: 250px;
+    display: flex;
+    justify-content: end;
+    padding-bottom: 30px;
+
+    width: 100%;
+    &__content {
+      margin-left: 15px;
+      display: inline-flex;
+      flex-direction: column;
+      @media (min-width: 1400px) {
+        margin-left: 30px;
+      }
+    }
+    &__txt {
+      display: inline-flex;
+      flex-direction: column;
+      line-height: 1.25;
+      font-size: 18px;
+      font-weight: 700;
+      text-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.75);
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: -15px;
+        width: 3px;
+        height: 100%;
+        background-color: $amarillo-sorsa;
+      }
+      @media (min-width: 1400px) {
+        font-size: 17px;
+      }
+    }
+    &__figure {
+      text-align: center;
+      margin-top: 7px;
+    }
+    &__img {
+      display: inline-block;
+      margin-right: 15px;
+    }
+
+    @media (min-width: 992px) {
+      width: 33.3333%;
+    }
+    @media (min-width: 1200px) {
+      width: 100%;
+    }
+    @media (min-width: 1400px) {
+      height: 300px;
+      min-height: 300px;
+    }
+  }
+
+  // Valores
+  .home-valores {
+    background-color: #014e9c;
+  }
+  .content-card-valores {
+    justify-content: center;
+  }
+  .card-valores {
+    // width: 320px;
+    width: 280px;
+    max-width: 100%;
+    text-align: center;
+    &__img {
+      height: 77px;
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+    &__desc {
+      color: #fff;
+      line-height: 1.2;
+    }
+    &__title {
+      font-size: 32px;
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+    &__txtsmall {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    &:nth-last-of-type(1) {
+      .card-valores__img {
+        img {
+          height: 65px;
+        }
+      }
+    }
+  }
+
+  .home-agenda {
+    .agenda-mantenimiento {
+      width: 80%;
+      margin-inline: auto;
+    }
+    .formulario-agenda {
+      // titulo
+      &__title {
+        font-size: 24px;
+        font-weight: 900;
+        text-align: center;
+        br {
+          display: none !important;
+        }
+      }
+
+      .wpcf7-form-control {
+        padding-left: 15px;
+      }
+      select {
+        &:focus {
+          border-color: $amarillo-sorsa;
+        }
+      }
+
+      .wpcf7-submit {
+        background-color: $amarillo-sorsa;
+        border-color: $amarillo-sorsa;
+        color: white;
+      }
+    }
+  }
+}
+// card-valores__content
+// border: 1px solid #00000029;
+// border-radius: 12px;
+// box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
