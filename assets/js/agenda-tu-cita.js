@@ -1,6 +1,4 @@
 (() => {
-  // /wp-json/asesores/v1/disponibilidad?asesor_id=${asesorId}&fecha=${fecha}&hora_inicio=${horaInicio}
-  // /wp-json/asesores/v1/reservar
   const domain = "https://retail.sorsa.pe/wp-json/wp/v2";
   const domainReserva = "https://retail.sorsa.pe/wp-json/asesores/v1";
   const endpoint = {
@@ -17,6 +15,16 @@
     asesora: document.getElementById("asesora"),
     timeSlots: document.getElementById("time-slots"),
     formularioAgenda: document.querySelector(".formulario-agenda"),
+    // Resume tabla
+    resumeContent: document.getElementById("resume"),
+    resumeTaller: document.querySelector("#resume [data-reserva-taller]"),
+    resumeAsesor: document.querySelector("#resume [data-reserva-asesor]"),
+    resumeFechaHora: document.querySelector("#resume [data-reserva-fecha]"),
+    // ContactForm
+    yourSubject: document.getElementById("your-subject"),
+    yourTaller: document.getElementById("your-taller"),
+    yourAsesor: document.getElementById("your-asesor"),
+    yourFechaHora: document.getElementById("your-fecha-hora"),
   };
 
   let horarios = {
@@ -121,6 +129,30 @@
     }
     return horarios;
   };
+  const completeselectTime = (btnActive) => {
+    console.log({ horarios });
+    elements.formularioAgenda.classList.add("active");
+    elements.resumeContent.classList.remove("d-none");
+
+    const txtInputTaller = Array.from(
+      elements.location.querySelectorAll("option")
+    ).find((item) => item.selected === true).textContent;
+    const txtInputAsesor = Array.from(
+      elements.asesora.querySelectorAll("option")
+    ).find((item) => item.selected === true).textContent;
+    const txtFechaHora =
+      document.getElementById("datepicker").value + " " + btnActive.textContent;
+
+    elements.resumeTaller.textContent = txtInputTaller;
+    elements.resumeAsesor.textContent = txtInputAsesor;
+    elements.resumeFechaHora.textContent = txtFechaHora;
+
+    elements.yourSubject.value = document.title;
+    elements.yourTaller.value = txtInputTaller;
+    elements.yourAsesor.value = txtInputAsesor;
+    elements.yourFechaHora.value = txtFechaHora;
+  };
+
   const selectTime = (time) => {
     console.log("Horario seleccionado: " + time);
     document.querySelectorAll("[data-btn-horas]").forEach((btn) => {
@@ -132,7 +164,7 @@
     btnActive.classList.add("btn-primary");
 
     // Aquí podrías añadir lógica para manejar la selección del horario
-    elements.formularioAgenda.classList.add("active");
+    completeselectTime(btnActive);
   };
 
   const showAvailableTimeSlots = (horas) => {
@@ -245,6 +277,8 @@
         // change Day
         // Ocultamos el formulario derecho
         elements.formularioAgenda.classList.remove("active");
+        // Ocultamos la tabla de resume
+        elements.resumeContent.classList.add("d-none");
         loadDisabledHoras(dateStr);
       },
     });
@@ -391,6 +425,8 @@
       elements.timeSlots.style.display = "none";
       // Ocultamos el formulario derecho
       elements.formularioAgenda.classList.remove("active");
+      // Ocultamos la tabla de resume
+      elements.resumeContent.classList.add("d-none");
       if (locationId) {
         elements.asesora.removeAttribute("disabled");
         await loadAsesores(locationId); // Cargar asesores según la ubicación seleccionada
@@ -411,6 +447,8 @@
       elements.timeSlots.style.display = "none";
       // Ocultamos el formulario derecho
       elements.formularioAgenda.classList.remove("active");
+      // Ocultamos la tabla de resume
+      elements.resumeContent.classList.add("d-none");
       if (asesorId) {
         document.querySelector("#datepicker").removeAttribute("disabled");
         await loadDisabledFechas(asesorId);

@@ -1,6 +1,4 @@
 #agenda-tu-cita {
-  margin-top: 80px;
-
   #reserva {
     display: flex;
     align-items: center;
@@ -35,15 +33,30 @@
     }
   }
 
+  // Aqui va lo del formulario
   .formulario-agenda {
     pointer-events: none;
     opacity: 0.5;
     user-select: none;
 
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    padding: 30px;
+
     &.active {
       pointer-events: all;
       opacity: 1;
       user-select: auto;
+    }
+
+    &__title {
+      font-size: 24px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    br {
+      display: none !important;
     }
 
     & > p {
@@ -52,5 +65,24 @@
     .wpcf7-form-control {
       padding-left: 15px;
     }
+
+    input[type="submit"] {
+      background-color: $amarillo-sorsa;
+      border-color: $amarillo-sorsa;
+      color: white;
+    }
+  }
+  // Resumen
+  .resume {
+    .ea-label {
+      text-align: left;
+    }
+    .value {
+      text-align: left;
+    }
+  }
+
+  @media (min-width: 992px) {
+    margin-top: 80px;
   }
 }
