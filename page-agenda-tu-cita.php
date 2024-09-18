@@ -30,7 +30,6 @@
 
       </div>
       <div class="col-md-6">
-        FORMULARIO
         <?= do_shortcode('[contact-form-7 id="467e44a" title="Reserva tu cita"]'); ?>
       </div>
     </div>

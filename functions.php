@@ -293,9 +293,10 @@ function verificar_disponibilidad_callback(WP_REST_Request $request)
 
   // Retornar la respuesta en formato JSON
   if ($disponible) {
-    return new WP_REST_Response(array('disponible' => true), 200);
+    return new WP_REST_Response(array('success' => true), 200);
   } else {
-    return new WP_REST_Response(array('disponible' => false, 'message' => 'El asesor ya tiene una reserva en esa fecha y hora'), 409);
+    // return new WP_REST_Response(array('success' => false, 'message' => 'El asesor ya tiene una reserva en esa fecha y hora'), 409);
+    return new WP_REST_Response(array('success' => false, 'message' => 'El asesor ya tiene una reserva en esa fecha y hora'), 200);
   }
 }
 

@@ -36,10 +36,20 @@
   }
 
   .formulario-agenda {
+    pointer-events: none;
+    opacity: 0.5;
+    user-select: none;
+
+    &.active {
+      pointer-events: all;
+      opacity: 1;
+      user-select: auto;
+    }
+
     & > p {
       margin-bottom: 2px;
     }
-    .wpcf7-form-control{
+    .wpcf7-form-control {
       padding-left: 15px;
     }
   }

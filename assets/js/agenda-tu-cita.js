@@ -1,8 +1,13 @@
 (() => {
+  // /wp-json/asesores/v1/disponibilidad?asesor_id=${asesorId}&fecha=${fecha}&hora_inicio=${horaInicio}
+  // /wp-json/asesores/v1/reservar
   const domain = "https://retail.sorsa.pe/wp-json/wp/v2";
+  const domainReserva = "https://retail.sorsa.pe/wp-json/asesores/v1";
   const endpoint = {
     asesor: `${domain}/asesor`,
     ubicacion: `${domain}/ubicacion`,
+    reservar: `${domainReserva}/reservar`,
+    disponibilidad: `${domainReserva}/disponibilidad`,
   };
 
   const elements = {
@@ -11,10 +16,12 @@
     location: document.getElementById("location"),
     asesora: document.getElementById("asesora"),
     timeSlots: document.getElementById("time-slots"),
+    formularioAgenda: document.querySelector(".formulario-agenda"),
   };
 
   let horarios = {
     // Asesor
+    asesor_id: 0,
     fechasDeMedioTiempo: [],
     // Ubicacion
     inicio_horario_jornada_laboral: "",
@@ -25,6 +32,21 @@
     final_horario_media_jornada: "",
   };
 
+  // Obtenemos hora y minuto actual
+  const getCurrentTime = () => {
+    const date = new Date();
+    const hours = String(date.getHours()).padStart(2, "0"); // Obtiene las horas (0-23)
+    const minutes = String(date.getMinutes()).padStart(2, "0"); // Obtiene los minutos (0-59)
+    return `${hours}:${minutes}`;
+  };
+  const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Asegura que el mes tenga dos dígitos
+    const day = String(date.getDate()).padStart(2, "0"); // Asegura que el día tenga dos dígitos
+
+    return `${year}-${month}-${day}`;
+  };
   const removeAndCreateDataPicker = () => {
     const datapicker = document.querySelector("#datepicker");
     if (datapicker && datapicker.parentNode) {
@@ -35,16 +57,12 @@
       );
     }
   };
-  // const removeContentButtonsHora = () => {
-  //   const contentButtonsHora = document.querySelector("#content-data-horas");
-  //   if (contentButtonsHora && contentButtonsHora.parentNode)
-  //     contentButtonsHora.parentNode.removeChild(contentButtonsHora);
-  // };
   const generarHorarios = ({
     inicio_horario_jornada_laboral,
     final_horario_jornada_laboral,
     tiempo_de_atencion,
     break: break_time,
+    selectedDate,
   }) => {
     const horarios = [];
     const [breakInicio] = break_time.split(":").map(Number);
@@ -61,6 +79,12 @@
     const finTotalMinutos = finHoras * 60 + finMinutos;
     const breakInicioMinutos = breakInicio * 60;
     const breakFinMinutos = breakInicioMinutos + 60; // 1 hora de descanso
+
+    // Obtener la hora actual en minutos desde medianoche
+    const [currentHours, currentMinutes] = getCurrentTime()
+      .split(":")
+      .map(Number);
+    const currentTotalMinutos = currentHours * 60 + currentMinutes;
 
     // Generar los horarios
     for (
@@ -83,12 +107,20 @@
         .padStart(2, "0");
       const minutos = (minutosActuales % 60).toString().padStart(2, "0");
 
-      horarios.push(`${horas}:${minutos}`);
-    }
+      const horaGenerada = `${horas}:${minutos}`;
 
+      // Solo agregar si es igual o mayor a la hora actual siempre y cuando la fecha que asigno es la misma que hoy
+      // Sino normal cualquier hora es posible""
+      if (selectedDate === getCurrentDate()) {
+        if (minutosActuales >= currentTotalMinutos) {
+          horarios.push(horaGenerada);
+        }
+      } else {
+        horarios.push(horaGenerada);
+      }
+    }
     return horarios;
   };
-
   const selectTime = (time) => {
     console.log("Horario seleccionado: " + time);
     document.querySelectorAll("[data-btn-horas]").forEach((btn) => {
@@ -100,81 +132,107 @@
     btnActive.classList.add("btn-primary");
 
     // Aquí podrías añadir lógica para manejar la selección del horario
+    elements.formularioAgenda.classList.add("active");
   };
 
-  const showAvailableTimeSlots = (dateStr) => {
-    console.log({ horarios });
+  const showAvailableTimeSlots = (horas) => {
+    let timesHtml = `<div id="content-data-horas">`;
+    horas.forEach((time) => {
+      timesHtml += `<button style="${
+        time.success
+          ? ""
+          : "pointer-events: none !important;opacity: .25 !important;"
+      }" data-btn-horas="${time.hora}" class="btn btn-light mx-1 mt-3">${
+        time.hora
+      }</button>`;
+    });
+    timesHtml += "</div>";
+    elements.timeSlots.innerHTML = timesHtml;
+    elements.timeSlots.style.display = "block";
+  };
 
+  const loadDisabledHoras = async (dateStr) => {
     // Dividir la cadena de fecha en partes (día, mes, año)
     const [day, month, year] = dateStr.split("-").map(Number);
     // Crear un objeto Date con el formato correcto (nota: los meses en JavaScript son 0-indexados)
     const selectedDate = new Date(year, month - 1, day);
     // Obtén el número del día de la semana
     const dayOfWeek = selectedDate.getDay();
-    console.log("Día de la semana:", dayOfWeek);
 
+    // Para el endpoint
+    const [d, m, y] = dateStr.split("-");
+    const selectedDateFormat = `${y}-${m}-${d}`;
+
+    let horas = [];
     // El asesor trabaja hoy a medioTiempo?
     if (horarios.fechasDeMedioTiempo.includes(dayOfWeek.toString())) {
-      const availableTimes = {
-        dateStr1: [],
-      };
-      // inicio_horario_jornada_laboral,
-      // final_horario_jornada_laboral,
-      // tiempo_de_atencion,
-      // break: break_time,
-      availableTimes.dateStr1 = [
+      horas = [
         ...generarHorarios({
           inicio_horario_jornada_laboral: horarios.inicio_horario_media_jornada,
           final_horario_jornada_laboral: horarios.final_horario_media_jornada,
           tiempo_de_atencion: horarios.tiempo_de_atencion,
           break: horarios.break,
+          selectedDate: selectedDateFormat,
         }),
       ];
-
-      let timesHtml = `<div id="content-data-horas">`;
-      availableTimes.dateStr1.forEach((time) => {
-        timesHtml += `<button data-btn-horas="${time}" class="btn btn-light mx-1 mt-3">${time}</button>`;
-      });
-      timesHtml += "</div>";
-
-      elements.timeSlots.innerHTML = timesHtml;
-      elements.timeSlots.style.display = "block";
     } else {
-      const availableTimes = {
-        dateStr1: [],
-      };
-
-      availableTimes.dateStr1 = [
+      horas = [
         ...generarHorarios({
           inicio_horario_jornada_laboral:
             horarios.inicio_horario_jornada_laboral,
           final_horario_jornada_laboral: horarios.final_horario_jornada_laboral,
           tiempo_de_atencion: horarios.tiempo_de_atencion,
           break: horarios.break,
+          selectedDate: selectedDateFormat,
         }),
       ];
-
-      let timesHtml = `<div id="content-data-horas">`;
-      availableTimes.dateStr1.forEach((time) => {
-        timesHtml += `<button data-btn-horas="${time}" class="btn btn-light mx-1 mt-3">${time}</button>`;
-      });
-      timesHtml += "</div>";
-      elements.timeSlots.innerHTML = timesHtml;
-      elements.timeSlots.style.display = "block";
     }
+    console.log({ horas });
+    try {
+      // Mostrar loader
+      elements.reserva.classList.add("loader");
 
-    // const availableTimes = {
-    //   "21-09-2024": ["08:00", "08:15", "08:30", "09:45", "11:00", "11:15"],
-    // };
-    // let timesHtml = "<div>";
-    // if (availableTimes[date]) {
-    //   availableTimes[date].forEach((time) => {
-    //     timesHtml += `<button class="btn btn-light" onclick="selectTime('${time}')">${time}</button>`;
-    //   });
-    // }
-    // timesHtml += "</div>";
-    // elements.timeSlots.innerHTML = timesHtml;
-    // elements.timeSlots.style.display = "block";
+      const promesas = horas.map((hora) =>
+        fetch(
+          `${endpoint.disponibilidad}?asesor_id=${horarios.asesor_id}&fecha=${selectedDateFormat}&hora_inicio=${hora}`
+        )
+      );
+
+      // Ejecutar todas las solicitudes en paralelo con Promise.all
+      const responses = await Promise.all(promesas);
+
+      // Verificar y obtener los datos de cada respuesta
+      const datos = await Promise.all(
+        responses.map((response) => {
+          // if (!response.ok) {
+          //   throw new Error(
+          //     `Error en la solicitud para la hora ${response.url}: ${response.status}`
+          //   );
+          // }
+          const dataJson = response.json();
+          if (dataJson.success === false) {
+            throw new Error(
+              `Error en la solicitud para la hora ${response.url}: ${response.status}`
+            );
+          }
+          return dataJson; // Convertir cada respuesta a JSON
+        })
+      );
+
+      horas = horas.map((hora, i) => {
+        return {
+          hora,
+          success: datos[i].success,
+        };
+      });
+      console.log("horas:", horas);
+      showAvailableTimeSlots(horas);
+    } catch (error) {
+      console.error("Hubo un problema con la solicitud Fetch:", error);
+    } finally {
+      // Ocultar loader
+      elements.reserva.classList.remove("loader");
+    }
   };
 
   const initFlatpickr = async (isDateDisabled = "") => {
@@ -185,30 +243,11 @@
       disable: [isDateDisabled], // Utiliza la función personalizada para deshabilitar fechas
       onChange: function (selectedDates, dateStr, instance) {
         // change Day
-        showAvailableTimeSlots(dateStr);
+        // Ocultamos el formulario derecho
+        elements.formularioAgenda.classList.remove("active");
+        loadDisabledHoras(dateStr);
       },
     });
-    // flatpickr("#datepicker", {
-    //   enableTime: true,
-    //   dateFormat: "d-m-Y H:i",
-    //   time_24hr: true, // Usa el formato de 24 horas
-    //   minuteIncrement: 15, // Intervalo de 15 minutos
-    //   minTime: "09:00", // Hora mínima
-    //   maxTime: "16:00", // Hora máxima
-
-    //   minDate: "today",
-    //   disable: [
-    //     function (date) {
-    //       // Deshabilita el intervalo de tiempo de 13:00 a 14:00
-    //       const hour = date.getHours();
-    //       return hour >= 13 && hour < 14;
-    //     },
-    //     isDateDisabled,
-    //   ], // Utiliza la función personalizada para deshabilitar fechas
-    //   onChange: function (selectedDates, dateStr, instance) {
-    //     showAvailableTimeSlots(dateStr);
-    //   },
-    // });
   };
 
   const loadDisabledFechas = async (asesorId) => {
@@ -230,6 +269,7 @@
       const noHabilitadoParaTrabajar = [...data.no_habilitado_para_trabajar];
       const fechasDeDescanso = [...data.fechas_de_descanso]; // 0 para domingos, 1 para lunes, etc.
       horarios.fechasDeMedioTiempo = [...data.fechas_de_medio_tiempo];
+      horarios.asesor_id = parseInt(asesorId);
 
       const fechasNoHabilitadas = noHabilitadoParaTrabajar.map(parseDate);
 
@@ -349,6 +389,8 @@
       removeAndCreateDataPicker();
       // Ocultamos los botones
       elements.timeSlots.style.display = "none";
+      // Ocultamos el formulario derecho
+      elements.formularioAgenda.classList.remove("active");
       if (locationId) {
         elements.asesora.removeAttribute("disabled");
         await loadAsesores(locationId); // Cargar asesores según la ubicación seleccionada
@@ -367,6 +409,8 @@
       removeAndCreateDataPicker();
       // Ocultamos los botones
       elements.timeSlots.style.display = "none";
+      // Ocultamos el formulario derecho
+      elements.formularioAgenda.classList.remove("active");
       if (asesorId) {
         document.querySelector("#datepicker").removeAttribute("disabled");
         await loadDisabledFechas(asesorId);
