@@ -54,4 +54,13 @@ const initDomReady = () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   initDomReady();
+
+  const btn = document.querySelector(".offcanvas-toggle.toggle-right");
+
+  btn &&
+    btn.addEventListener("click", () => {
+      console.log("click");
+      const mobileWrapper = document.querySelector(".mobile-wrapper");
+      mobileWrapper && mobileWrapper.classList.add("tablet");
+    });
 });

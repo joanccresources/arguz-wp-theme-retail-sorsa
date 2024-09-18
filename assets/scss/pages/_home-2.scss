@@ -205,6 +205,9 @@
   // Valores
   .home-valores {
     background-color: #014e9c;
+    @media (max-width: 767px) {
+      background-image: none;
+    }
   }
   .content-card-valores {
     justify-content: center;
@@ -251,6 +254,9 @@
     .agenda-mantenimiento {
       width: 80%;
       margin-inline: auto;
+      @media (max-width: 767px) {
+        width: 90%;
+      }
     }
     .formulario-agenda {
       // titulo
@@ -258,6 +264,7 @@
         font-size: 24px;
         font-weight: 900;
         text-align: center;
+        line-height: 1.2;
         br {
           display: none !important;
         }

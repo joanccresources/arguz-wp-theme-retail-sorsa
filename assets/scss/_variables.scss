@@ -117,8 +117,8 @@ $amarillo-sorsa: #f7a41d;
 
 .btn-cta {
   background-color: $amarillo-sorsa;
-  // font-size: 18px;
-  // padding: 18px 25px;
+  font-size: 14px;
+  padding: 6px 16px;
   color: #fff;
   display: flex !important;
   align-items: center;
@@ -130,12 +130,17 @@ $amarillo-sorsa: #f7a41d;
     color: white;
     opacity: 0.9;
   }
+  @media (min-width: 768px) and (max-width: 991px) {
+    display: none !important;
+  }
   @media (min-width: 992px) {
-    font-size: 16px;
+    // font-size: 14px;
+    // padding: 6px 16px;
     line-height: 1.2;
-    padding: 12px 18px;
   }
   @media (min-width: 1200px) {
+    font-size: 16px;
+    padding: 12px 18px;
   }
   @media (min-width: 1400px) {
     padding: 18px 25px;
