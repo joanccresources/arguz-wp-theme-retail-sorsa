@@ -34,4 +34,13 @@
       }
     }
   }
+
+  .formulario-agenda {
+    & > p {
+      margin-bottom: 2px;
+    }
+    .wpcf7-form-control{
+      padding-left: 15px;
+    }
+  }
 }
