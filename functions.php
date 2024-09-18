@@ -134,16 +134,39 @@ function mostrar_reservas()
     echo '<div class="notice notice-success is-dismissible"><p>Reserva eliminada exitosamente.</p></div>';
   }
 
-  // Consulta para obtener todas las reservas
-  $reservas = $wpdb->get_results("
-        SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
-        FROM $tabla_reservas r
-        INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
-        ORDER BY r.fecha DESC
-    ");
+  // Obtener el término de búsqueda si está presente
+  $busqueda = isset($_GET['busqueda']) ? sanitize_text_field($_GET['busqueda']) : '';
+  // Consulta SQL
+  $query = "
+      SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
+      FROM $tabla_reservas r
+      INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
+      WHERE a.post_title LIKE %s OR r.nombre_cliente LIKE %s
+      ORDER BY r.fecha DESC
+  ";
+  // Preparar la consulta
+  $sql = $wpdb->prepare($query, '%' . $wpdb->esc_like($busqueda) . '%', '%' . $wpdb->esc_like($busqueda) . '%');
+  // Ejecutar la consulta
+  $reservas = $wpdb->get_results($sql);
+
+  // // Consulta para obtener todas las reservas
+  // $reservas = $wpdb->get_results("
+  //       SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
+  //       FROM $tabla_reservas r
+  //       INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
+  //       ORDER BY r.fecha DESC
+  //   ");
 
   echo '<div class="wrap">';
   echo '<h1>Reservas de Asesores</h1>';
+
+  // Formulario de búsqueda
+  echo '<form method="GET" action="" style="text-align: right;margin-bottom: 12px;">';
+  echo '<input type="hidden" name="page" value="reservas-asesores">';
+  echo '<input type="text" name="busqueda" value="' . esc_attr($busqueda) . '" placeholder="Buscar por nombre de asesor o cliente"  style="min-width: 200px;">';
+  echo '<input type="submit" value="Buscar" class="button">';
+  echo '</form>';
+
   echo '<table class="widefat fixed" cellspacing="0">';
   // echo '<thead><tr><th>ID</th><th>Asesor</th><th>Fecha</th><th>Hora Inicio</th><th>Hora Fin</th><th>Ubicación</th><th>Nombre Cliente</th><th>Correo Cliente</th><th>Acciones</th></tr></thead>';
   echo '<thead><tr><th>ID</th><th>Asesor</th><th>Fecha</th><th>Hora Inicio</th><th>Ubicación</th><th>Nombre Cliente</th><th>Correo Cliente</th><th>Acciones</th></tr></thead>';
@@ -158,7 +181,7 @@ function mostrar_reservas()
     echo '<td>' . esc_html($reserva->id) . '</td>';
     echo '<td>' . esc_html($reserva->asesor) . '</td>';
     echo '<td>' . esc_html($reserva->fecha) . '</td>';
-    echo '<td>' . esc_html($reserva->hora_inicio) . '</td>';    
+    echo '<td>' . esc_html($reserva->hora_inicio) . '</td>';
     echo '<td>' . $ubicacion_nombre . '</td>';
     echo '<td>' . esc_html($reserva->nombre_cliente) . '</td>';
     echo '<td>' . esc_html($reserva->correo_cliente) . '</td>';
