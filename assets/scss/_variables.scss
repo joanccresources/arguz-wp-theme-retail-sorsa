@@ -159,3 +159,18 @@ $amarillo-sorsa: #f7a41d;
 // font-weight: 700;
 // font-style: italic;
 // transition: all .25s;
+
+.alert {
+  button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+  }
+  span {
+    position: relative;
+    top: -10px;
+  }
+}

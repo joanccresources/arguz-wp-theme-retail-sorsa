@@ -29,7 +29,7 @@
 
   let horarios = {
     // Asesor
-    asesor_id: 0,
+    asesor_id: 0, // Seleccion
     fechasDeMedioTiempo: [],
     // Ubicacion
     inicio_horario_jornada_laboral: "",
@@ -38,6 +38,9 @@
     break: "",
     inicio_horario_media_jornada: "",
     final_horario_media_jornada: "",
+    // Seleccion
+    fecha_reservada: "",
+    hora_reservada: "",
   };
 
   // Obtenemos hora y minuto actual
@@ -131,6 +134,7 @@
   };
   const completeselectTime = (btnActive) => {
     console.log({ horarios });
+
     elements.formularioAgenda.classList.add("active");
     elements.resumeContent.classList.remove("d-none");
 
@@ -163,6 +167,7 @@
     btnActive.classList.remove("btn-light");
     btnActive.classList.add("btn-primary");
 
+    horarios.hora_reservada = time;
     // Aquí podrías añadir lógica para manejar la selección del horario
     completeselectTime(btnActive);
   };
@@ -257,7 +262,8 @@
           success: datos[i].success,
         };
       });
-      console.log("horas:", horas);
+
+      horarios.fecha_reservada = selectedDateFormat;
       showAvailableTimeSlots(horas);
     } catch (error) {
       console.error("Hubo un problema con la solicitud Fetch:", error);
@@ -466,12 +472,144 @@
     });
   };
 
+  const insertErrorAlert = (message) => {
+    document.querySelector("#alert-success-form")?.remove();
+    document.querySelector("#alert-error-form")?.remove();
+
+    const $container = document.querySelector("#btn-send-form-reserva");
+    if (!$container) return;
+    const $alertHtml = `
+  <div class="alert alert-danger mb-0 mt-2" role="alert" id="alert-error-form">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${message}
+  </div>
+  `;
+    $container.insertAdjacentHTML("afterend", $alertHtml);
+    const $btnClose = document.querySelector("#alert-error-form button");
+    $btnClose &&
+      $btnClose.addEventListener("click", () => {
+        document.querySelector("#alert-error-form").remove();
+      });
+  };
+
+  const insertSuccessAlert = (message) => {
+    document.querySelector("#alert-success-form")?.remove();
+    document.querySelector("#alert-error-form")?.remove();
+
+    const $container = document.querySelector("#btn-send-form-reserva");
+    if (!$container) return;
+    const $alertHtml = `
+  <div class="alert alert-success mb-0 mt-2" role="alert" id="alert-success-form">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${message}
+  </div>
+  `;
+    $container.insertAdjacentHTML("afterend", $alertHtml);
+    const $btnSuccess = document.querySelector("#alert-success-form button");
+    $btnSuccess &&
+      $btnSuccess.addEventListener("click", () => {
+        document.querySelector("#alert-success-form").remove();
+      });
+  };
+
+  const validateForm = () => {
+    const $form = document.querySelector(".formulario-agenda");
+    let cont;
+    const $btnSend = document.querySelector("#btn-send-form-reserva");
+    if (!$form || !$btnSend) return;
+
+    const validate = () => {
+      cont = 0;
+      const $inputs = $form.querySelectorAll(
+        "input:not([type='hidden'],[type='submit'])"
+      );
+      Array.from($inputs).forEach(($input) => {
+        if ($input.value.trim().length === 0) cont++;
+      });
+
+      cont > 0
+        ? $btnSend.classList.add("no-validate")
+        : $btnSend.classList.remove("no-validate");
+    };
+    const addEvents = () => {
+      const $inputs = $form.querySelectorAll("input");
+      Array.from($inputs).forEach(($input) => {
+        $input.addEventListener("keydown", validate);
+        $input.addEventListener("keyup", validate);
+        $input.addEventListener("focus", validate);
+        $input.addEventListener("blur", validate);
+      });
+    };
+
+    validate();
+    addEvents();
+  };
+
+  const changeSumitForm = () => {
+    const btnSubmit = document.querySelector(
+      `.formulario-agenda input[type="submit"]`
+    );
+    if (!btnSubmit) return;
+
+    const htmlButton = `<button type="button" class="btn-send-form-reserva" id="btn-send-form-reserva" class="btn-send-form-reserva">Enviar</button>`;
+
+    btnSubmit.insertAdjacentHTML("afterend", htmlButton);
+    btnSubmit.classList.add("d-none");
+
+    const btnReserva = document.querySelector("#btn-send-form-reserva");
+
+    btnReserva &&
+      btnReserva.addEventListener("click", () => {
+        const data = {
+          asesor_id: horarios.asesor_id,
+          fecha: horarios.fecha_reservada,
+          hora_inicio: horarios.hora_reservada,
+          hora_fin: "23:00",
+          nombre_cliente: document.getElementById("nombre").value,
+          correo_cliente: document.getElementById("correo").value,
+        };
+        console.log({ data });
+
+        // Registrar Formulario y dar error en caso estea mal
+        const reservarAsesor = async () => {
+          try {
+            document.querySelector("#form-reserva").classList.add("loader");
+
+            const response = await fetch(endpoint.reservar, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            // Parseamos la respuesta a JSON
+            const respuestaJSON = await response.json();
+
+            if (respuestaJSON.success === false) {
+              throw new Error(respuestaJSON.message);
+            }
+            insertSuccessAlert(respuestaJSON.message);
+          } catch (error) {
+            insertErrorAlert(error);
+          } finally {
+            document.querySelector("#form-reserva").classList.remove("loader");
+          }
+        };
+
+        reservarAsesor();
+      });
+  };
+
   const initDomReady = () => {
     console.log("Hola Mundo Agenda");
     handleTalleresChange();
     handleAsesoresChange();
     handleHoraClick();
     loadTalleres();
+    //
+    changeSumitForm();
+    validateForm();
   };
   addEventListener("DOMContentLoaded", () => {
     initDomReady();

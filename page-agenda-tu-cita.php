@@ -53,10 +53,13 @@
           </div>
           <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/gif-loader.gif" alt="Image Loader" class="reserva-image-loader" width="60" height="60">
         </div>
-
       </div>
+
       <div class="col-md-6 mt-3 mt-md-0">
-        <?= do_shortcode('[contact-form-7 id="467e44a" title="Reserva tu cita"]'); ?>
+        <div id="form-reserva">
+          <?= do_shortcode('[contact-form-7 id="467e44a" title="Reserva tu cita"]'); ?>
+          <img src="<?= get_stylesheet_directory_uri() ?>/assets/img/gif-loader.gif" alt="Image Loader" class="reserva-image-loader" width="60" height="60">
+        </div>
       </div>
     </div>
   </div>

@@ -33,6 +33,26 @@
     }
   }
 
+  #form-reserva {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    &.loader {
+      > .wpcf7 {
+        opacity: 0.25;
+        pointer-events: none;
+      }
+      .reserva-image-loader {
+        display: block;
+      }
+    }
+    .reserva-image-loader {
+      display: none;
+      position: absolute;
+    }
+  }
+
   // Aqui va lo del formulario
   .formulario-agenda {
     pointer-events: none;
@@ -82,7 +102,22 @@
     }
   }
 
+  .btn-send-form-reserva {
+    background-color: $amarillo-sorsa;
+    border-color: $amarillo-sorsa;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding-block: 7px;
+  }
+
   @media (min-width: 992px) {
     margin-top: 80px;
   }
+}
+
+.no-validate {
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.5 !important;
 }
