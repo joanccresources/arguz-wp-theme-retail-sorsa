@@ -23,6 +23,10 @@ function artech_child_theme_styles()
       'url' => admin_url('admin-ajax.php')
     ));
   }
+  if (is_front_page()) {
+    wp_enqueue_script('home-script', get_stylesheet_directory_uri() . '/assets/js/home.js?v=' . time(), array(), null, true);
+  }
+
   wp_enqueue_style('artech-parent-style', get_template_directory_uri() . '/style.css', array('bootstrap'));
   wp_enqueue_style('artech-child-style', get_stylesheet_uri(), array('artech-parent-style'));
 }

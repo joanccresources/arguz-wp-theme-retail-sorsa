@@ -28,8 +28,8 @@ addEventListener("DOMContentLoaded", () => {
   const $listMenu = document.querySelector("#menu-menu-sorsa");
   $listMenu?.insertAdjacentHTML("afterend", $rrssMenu.innerHTML);
 });
-window.addEventListener("DOMContentLoaded", addClassStickyHeaderHome);
-document.addEventListener("scroll", addClassStickyHeaderHome);
+// window.addEventListener("DOMContentLoaded", addClassStickyHeaderHome);
+// document.addEventListener("scroll", addClassStickyHeaderHome);
 
 // const desabilitarLinks = () => {
 //   // Links desabilitados

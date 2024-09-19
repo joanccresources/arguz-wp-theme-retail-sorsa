@@ -43,6 +43,29 @@
     hora_reservada: "",
   };
 
+  // Limpiar Todo
+  const cleanAll = () => {
+    const event = new Event("change", {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    const asesora = document.getElementById("asesora");
+    asesora.value = "";
+    // asesora.dispatchEvent(event);
+
+    const location = document.getElementById("location");
+    location.value = "-";
+    location.dispatchEvent(event);
+
+    document.querySelector("#your-name").value = "";
+    document.querySelector("#your-email").value = "";
+    document.querySelector("#telefono").value = "";
+    document.querySelector("#ano_modelo").value = "";
+    document.querySelector("#servicio").value = "-";
+    document.querySelector("#descripcion").value = "";
+  };
+
   // Obtenemos hora y minuto actual
   const getCurrentTime = () => {
     const date = new Date();
@@ -352,7 +375,7 @@
       const data = await response.json();
 
       // Iterar sobre los objetos y extraer los títulos y id
-      let optionsHtml = `<option value selected="selected">-</option>`;
+      let optionsHtml = `<option value="-" selected="selected">-</option>`;
       data.forEach((item) => {
         optionsHtml += `<option value="${item.id}">${item.name}</option>`;
       });
@@ -512,6 +535,60 @@
       });
   };
 
+  const getURLParameters = () => {
+    // Obtener los parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+
+    // Verificar si todos los parámetros necesarios están presentes
+    const requiredParams = [
+      "your-name",
+      "your-email",
+      "telefono",
+      "ano_modelo",
+      "servicio",
+      "descripcion",
+    ];
+    const allParamsPresent = requiredParams.every((param) => params.has(param));
+
+    if (!allParamsPresent) return;
+
+    // Si todos los parámetros están presentes, obtener sus valores
+    const yourName = params.get("your-name");
+    const yourEmail = params.get("your-email");
+    const telefono = params.get("telefono");
+    const anoModelo = params.get("ano_modelo");
+    const servicio = params.get("servicio");
+    const descripcion = params.get("descripcion");
+
+    // Realizar la acción que deseas
+    console.log("Todos los parámetros están presentes. Ejecutando acción...");
+    console.log("Nombre:", yourName);
+    console.log("Email:", yourEmail);
+    console.log("Teléfono:", telefono);
+    console.log("Año Modelo:", anoModelo);
+    console.log("Servicio:", servicio);
+    console.log("Descripción:", descripcion);
+
+    const currentYourName = document.querySelector("#your-name");
+    const currentYourEmail = document.querySelector("#your-email");
+    const currentTelefono = document.querySelector("#telefono");
+    const currentAnoModelo = document.querySelector("#ano_modelo");
+    const currentServicio = document.querySelector("#servicio");
+    const currentDescripcion = document.querySelector("#descripcion");
+
+    currentYourName.setAttribute("value", yourName);
+    currentYourEmail.setAttribute("value", yourEmail);
+    currentTelefono.setAttribute("value", telefono);
+    currentAnoModelo.setAttribute("value", anoModelo);
+    currentServicio.setAttribute("value", servicio);
+    // currentDescripcion.setAttribute("value", descripcion);
+    setTimeout(() => {
+      // currentDescripcion.value = descripcion;
+      document.querySelector("#servicio").value = servicio;
+      document.querySelector("#descripcion").value = descripcion;
+    }, 3000);
+  };
+
   const validateForm = () => {
     const $form = document.querySelector(".formulario-agenda");
     let cont;
@@ -565,8 +642,8 @@
           fecha: horarios.fecha_reservada,
           hora_inicio: horarios.hora_reservada,
           hora_fin: "23:00",
-          nombre_cliente: document.getElementById("nombre").value,
-          correo_cliente: document.getElementById("correo").value,
+          nombre_cliente: document.getElementById("your-name").value,
+          correo_cliente: document.getElementById("your-email").value,
         };
         console.log({ data });
 
@@ -589,7 +666,8 @@
             if (respuestaJSON.success === false) {
               throw new Error(respuestaJSON.message);
             }
-            insertSuccessAlert(respuestaJSON.message);
+            // insertSuccessAlert(respuestaJSON.message);
+            btnSubmit.click();
           } catch (error) {
             insertErrorAlert(error);
           } finally {
@@ -599,10 +677,19 @@
 
         reservarAsesor();
       });
+
+    const form = document.querySelector("form:has(>.formulario-agenda)");
+
+    form.addEventListener("submit", function (event) {
+      setTimeout(() => {
+        cleanAll();
+      }, 500);
+    });
   };
 
   const initDomReady = () => {
-    console.log("Hola Mundo Agenda");
+    // Obtener en caso vengan parametros
+    getURLParameters();
     handleTalleresChange();
     handleAsesoresChange();
     handleHoraClick();
