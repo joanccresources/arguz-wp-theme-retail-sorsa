@@ -145,6 +145,40 @@ header {
       }
     }
   }
+
+  .offcanvas-toggle {
+    filter: brightness(0) invert(1);
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .tablet-close {
+      display: none;
+    }
+  }
+  &.active-mobile {
+    @media (min-width: 768px) and (max-width: 991px) {
+      .mobile-wrapper {
+        display: block !important;
+      }
+
+      .fat-nav__wrapper { 
+        position: relative;
+      }
+
+      .mobile-wrapper .fat-nav {
+        display: block !important;
+        transform: none !important;
+      }
+
+      .tablet-close {
+        position: absolute;
+        left: calc(100% - 60px);
+        top: 50px;
+        display: block;
+        font-size: 30px;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 // header .elementor-widget-tcg-offcanvas

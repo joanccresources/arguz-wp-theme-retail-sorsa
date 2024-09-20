@@ -1,44 +1,4 @@
 (() => {
-  const insertErrorAlert = (message) => {
-    document.querySelector("#alert-success-form")?.remove();
-    document.querySelector("#alert-error-form")?.remove();
-
-    const $container = document.querySelector("#btn-send-form-reserva");
-    if (!$container) return;
-    const $alertHtml = `
-  <div class="alert alert-danger mb-0 mt-2" role="alert" id="alert-error-form">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    ${message}
-  </div>
-  `;
-    $container.insertAdjacentHTML("afterend", $alertHtml);
-    const $btnClose = document.querySelector("#alert-error-form button");
-    $btnClose &&
-      $btnClose.addEventListener("click", () => {
-        document.querySelector("#alert-error-form").remove();
-      });
-  };
-
-  const insertSuccessAlert = (message) => {
-    document.querySelector("#alert-success-form")?.remove();
-    document.querySelector("#alert-error-form")?.remove();
-
-    const $container = document.querySelector("#btn-send-form-reserva");
-    if (!$container) return;
-    const $alertHtml = `
-  <div class="alert alert-success mb-0 mt-2" role="alert" id="alert-success-form">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    ${message}
-  </div>
-  `;
-    $container.insertAdjacentHTML("afterend", $alertHtml);
-    const $btnSuccess = document.querySelector("#alert-success-form button");
-    $btnSuccess &&
-      $btnSuccess.addEventListener("click", () => {
-        document.querySelector("#alert-success-form").remove();
-      });
-  };
-
   const validateForm = () => {
     const $form = document.querySelector(".formulario-agenda");
     let cont;
@@ -106,13 +66,13 @@
         const fullURL = `${baseURL}?${params.toString()}`;
         location.href = fullURL;
       });
-  };
+  }; 
 
   const initDomReady = () => {
     console.log("Hola Home");
     //
     changeSumitForm();
-    validateForm();
+    validateForm();    
   };
   addEventListener("DOMContentLoaded", () => {
     initDomReady();

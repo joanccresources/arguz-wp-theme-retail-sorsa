@@ -52,15 +52,39 @@ const initDomReady = () => {
   }
 };
 
+const showMenuTablet = () => {
+  document.querySelector(".tablet-close")?.remove();
+  const btnBurger = document.querySelector("header .offcanvas-toggle");
+  btnBurger &&
+    btnBurger.addEventListener("click", () => {
+      document.querySelector("body > header").classList.add("active-mobile");
+      document
+        .querySelector(".fat-nav__wrapper")
+        .insertAdjacentHTML(
+          "afterbegin",
+          `<i class="fas fa-times tablet-close"></i>`
+        );
+      const btnClose = document.querySelector(".tablet-close");
+      btnClose &&
+        btnClose.addEventListener("click", () => {
+          document
+            .querySelector("body > header")
+            .classList.remove("active-mobile");
+          document.querySelector(".offcanvas-close").click();
+          btnClose.remove();
+        });
+    });
+};
+
 window.addEventListener("DOMContentLoaded", () => {
   initDomReady();
+  showMenuTablet();
 
-  const btn = document.querySelector(".offcanvas-toggle.toggle-right");
-
-  btn &&
-    btn.addEventListener("click", () => {
-      console.log("click");
-      const mobileWrapper = document.querySelector(".mobile-wrapper");
-      mobileWrapper && mobileWrapper.classList.add("tablet");
-    });
+  // const btn = document.querySelector(".offcanvas-toggle.toggle-right");
+  // btn &&
+  //   btn.addEventListener("click", () => {
+  //     console.log("click");
+  //     const mobileWrapper = document.querySelector(".mobile-wrapper");
+  //     mobileWrapper && mobileWrapper.classList.add("tablet");
+  //   });
 });
