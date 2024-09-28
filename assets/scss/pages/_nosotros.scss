@@ -257,32 +257,6 @@
   }
 
   .nosotros-contactanos {
-    &__btn {
-      a {
-        // text-transform: uppercase;
-        // border-radius: 10px;
-        text-transform: uppercase;
-        border-radius: 10px;
-        font-size: 18px;
-        padding-inline: 34px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        @media (max-width: 767px) {
-          padding-inline: 25px;
-          padding-top: 10px;
-          padding-bottom: 10px;
-          font-size: 16px;
-        }
-      }
-      &--amarillo {
-        a {
-          background-color: $amarillo-sorsa;
-          border: 1px solid #fff;
-          color: #fff;
-        }
-      }
-    }
-
     &__body {
       @media (max-width: 767px) {
         flex-wrap: nowrap;

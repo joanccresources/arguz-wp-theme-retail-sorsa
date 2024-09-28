@@ -13,3 +13,32 @@
     }
   }
 }
+
+// Botones
+.btn-retail-default {
+  padding-inline: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  border-radius: 10px;
+  transition: all 0.25s;
+  @media (min-width: 768px) {
+    padding-inline: 34px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 18px;
+  }
+}
+
+@mixin btn-retail($fondo, $border, $color-texto) {
+  @extend .btn-retail-default;
+  background-color: $fondo;
+  border: 1px solid $border;
+  color: $color-texto;
+  &:hover {
+    background-color: darken($fondo, 10%);
+    border-color: darken($border, 10%);
+    color: lighten($color-texto, 10%);
+  }
+}

@@ -1,0 +1,99 @@
+#servicios {
+  .suministros-hero {
+    &__title {
+      text-align: center;
+      h2 {
+        max-width: 100%;
+        width: 770px;
+        text-align: center;
+        &::before {
+          display: none;
+        }
+      }
+    }
+    &__img {
+      img {
+        min-height: 452px;
+        @media (min-width: 768px) {
+          min-height: auto;
+        }
+      }
+    }
+    @include m(992) {
+      margin-top: 78px;
+    }
+  }
+
+  .servicios-contenido {
+    .suministros-hero {
+      &__title {
+        h2 {
+          text-align: left;
+          &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            background-color: #e28f1d;
+            width: 6px;
+            height: 100%;
+            left: -20px;
+            top: 0;
+            transform: translateX(-3px);
+          }
+        }
+      }
+    }
+
+    &__seccion {
+      &:nth-of-type(even) {
+        .suministros-hero {
+          &__title {
+            h2 {
+              &::before {
+                background-color: $azul-sorsa-03;
+              }
+            }
+          }
+        }
+      }
+
+      // servicios-contenido__seccion
+      @include m(0, 1024) {
+        padding-block: 30px !important;
+      }
+    }
+    &__body {
+      padding-block: 30px;
+      @include m(0, 1024) {
+        padding-block: 0;
+      }
+    }
+    // servicios-contenido__seccion
+    // servicios-contenido__body
+    .hidden-element.e-con-full {
+      @include m(0, 1024) {
+        display: none !important;
+      }
+    }
+  }
+
+  .nosotros-contactanos {
+    &__body {
+      @media (max-width: 767px) {
+        flex-wrap: nowrap;
+      }
+    }
+    &__title {
+      h2 {
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+      }
+    }
+    &__group-btn {
+      @media (max-width: 767px) {
+        justify-content: center;
+      }
+    }
+  }
+}

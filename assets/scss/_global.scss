@@ -103,3 +103,23 @@
     }
   }
 }
+
+// Boton retail
+.btn-amarillo-blanco {
+  a {
+    @include btn-retail($amarillo-sorsa, #fff, #fff);
+  }
+}
+
+.btn-azul-amarillo {
+  a {
+    // @include btn-retail($azul-sorsa, $amarillo-sorsa, $amarillo-sorsa);
+    @include btn-retail($azul-sorsa-03, $amarillo-sorsa, $amarillo-sorsa);
+  }
+}
+
+.btn-amarillo-azul {
+  a {
+    @include btn-retail($amarillo-sorsa-04, $azul-sorsa-03, $azul-sorsa-03);
+  }
+}
