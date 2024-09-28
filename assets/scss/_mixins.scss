@@ -1,0 +1,15 @@
+// Reducimos las media querys
+@mixin m($breakpoint, $max: null) {
+  $min: $breakpoint + 0px; // Convertimos a PX
+
+  @if $max == null {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    $max: $max + 0px; // Convertimos a PX
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+}

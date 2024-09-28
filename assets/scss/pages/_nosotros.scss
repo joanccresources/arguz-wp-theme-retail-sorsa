@@ -1,0 +1,304 @@
+#nosotros {
+  .suministros-hero {
+    &__img {
+      img {
+        min-height: 452px;
+        @media (min-width: 768px) {
+          min-height: auto;
+        }
+      }
+    }
+    @media (min-width: 992px) {
+      margin-top: 78px;
+    }
+  }
+
+  .nosotros-main {
+    .suministros-hero {
+      &__title {
+        h2 {
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+    &__body {
+      position: relative;
+      padding-left: 8px;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: $amarillo-sorsa;
+      }
+    }
+    &__txt {
+      padding-left: 12px;
+    }
+    &__figure {
+      @include m(768, 1023) {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .nosotros-carrousel {
+    &__container {
+      align-items: stretch;
+      // flex-wrap: nowrap;
+      & > .elementor-element {
+        flex: 1;
+      }
+      @include m(768) {
+        flex-wrap: nowrap;
+      }
+    }
+    &__carrusel {
+      flex-basis: 100% !important;
+      @include m(768, 1023) {
+        flex-basis: 55% !important;
+      }
+      @include m(1024) {
+        flex-basis: 65% !important;
+      }
+      @include m(1400) {
+        flex-basis: 75% !important;
+      }
+    }
+    .card-left {
+      flex-basis: 100%;
+      @include m(768, 1023) {
+        flex-basis: 45%;
+      }
+      @include m(1024) {
+        flex-basis: 35%;
+      }
+      @include m(1400) {
+        flex-basis: 25%;
+      }
+    }
+    .carrusel-imagenes {
+      .swiper {
+        @include m(768) {
+          height: 100%;
+        }
+      }
+      .swiper-slide-inner {
+        @include m(768) {
+          height: 100%;
+        }
+      }
+      .swiper-slide-image {
+        @include m(768) {
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      @include m(768) {
+        height: 100%;
+      }
+    }
+
+    .elementor-swiper-button {
+      font-size: 50px;
+      @include m(768) {
+        font-size: 71px;
+      }
+    }
+
+    @include m(992) {
+      max-height: 860px;
+    }
+  }
+
+  .nosotros-mision {
+    &__container {
+      align-items: stretch;
+      .card-mis:nth-of-type(1) {
+        @include m(768) {
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 4px;
+            height: 100%;
+            background-color: $amarillo-sorsa;
+            transform: translateX(-2px);
+          }
+        }
+      }
+    }
+    .card-mis {
+      position: relative;
+      padding-inline: 15px;
+      @include m(768) {
+        padding-inline: 30px;
+      }
+    }
+  }
+
+  .nosotros-valores {
+    .suministros-hero {
+      &__title {
+        h2 {
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+    .card-valores {
+      &__figure {
+        width: 145px;
+      }
+
+      &__img {
+        img {
+          // height: 114px;
+          height: 94px;
+          width: auto;
+          object-fit: contain;
+        }
+      }
+      &__title {
+        h2 {
+          color: $amarillo-sorsa;
+          font-size: 16px;
+          font-weight: 700;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+          position: relative;
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            background-color: $amarillo-sorsa;
+            width: 50px;
+            height: 2px;
+          }
+        }
+      }
+      &__body {
+        padding: 0;
+      }
+      &__txt {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #fff;
+      }
+    }
+    .card-valor {
+      padding: 0;
+      &__body {
+        padding: 0;
+      }
+    }
+    &__list {
+      padding-inline: 0;
+    }
+    //
+    &__parent-col {
+      @include m(0, 1024) {
+        flex-direction: column;
+      }
+    }
+    &__col-1 {
+      @include m(0, 1024) {
+        order: 1;
+      }
+    }
+    &__col-2 {
+      padding-block: 0;
+      align-self: end;
+      padding-inline: 0;
+      @include m(0, 1024) {
+        order: 3;
+      }
+    }
+    &__col-3 {
+      @include m(0, 1024) {
+        order: 2;
+      }
+    }
+    //
+    .elementor-element:has(> .nosotros-valores) {
+      padding-inline: 0;
+      padding-block: 0;
+    }
+    .nosotros-valores {
+      padding-inline: 0;
+      padding-block: 0;
+      &__list {
+        & > .e-con-inner {
+          padding-block: 0;
+        }
+      }
+    }
+    .e-con-inner:has(> .suministros-hero__title) {
+      padding-bottom: 0;
+    }
+    &__img {
+      img {
+        margin-bottom: -10px;
+        @include m(0, 767) {
+          width: 250px;
+        }
+        @include m(768, 1024) {
+          width: 350px;
+        }
+      }
+    }
+  }
+
+  .nosotros-contactanos {
+    &__btn {
+      a {
+        // text-transform: uppercase;
+        // border-radius: 10px;
+        text-transform: uppercase;
+        border-radius: 10px;
+        font-size: 18px;
+        padding-inline: 34px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        @media (max-width: 767px) {
+          padding-inline: 25px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 16px;
+        }
+      }
+      &--amarillo {
+        a {
+          background-color: $amarillo-sorsa;
+          border: 1px solid #fff;
+          color: #fff;
+        }
+      }
+    }
+
+    &__body {
+      @media (max-width: 767px) {
+        flex-wrap: nowrap;
+      }
+    }
+    &__title {
+      h2 {
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+      }
+    }
+    &__group-btn {
+      @media (max-width: 767px) {
+        justify-content: center;
+      }
+    }
+  }
+}
