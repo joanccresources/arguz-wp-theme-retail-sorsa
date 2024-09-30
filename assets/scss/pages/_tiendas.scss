@@ -1,0 +1,87 @@
+#tiendas {
+  // suministros-hero__content
+  .suministros-hero {
+    &__img {
+      .elementor-widget-container {
+        text-align: right;
+      }
+      img {
+        min-height: 452px;
+        margin-top: 75px;
+        // @media (min-width: 768px) {
+        //   min-height: auto;
+        // }
+        @include m(768) {
+          margin-top: 0;
+          min-height: auto;
+          width: 90%;
+        }
+      }
+    }
+    // suministros-hero__title
+    &__title {
+      h2 {
+        // max-width: 220px;
+        &::before {
+          display: none;
+        }
+        @include m(768) {
+          max-width: 211px;
+        }
+        @include m(1025) {
+          max-width: 320px;
+        }
+      }
+    }
+    &__content {
+      > .e-con-inner {
+        @media (max-width: 767px) {
+          justify-content: flex-start !important;
+        }
+      }
+    }
+    @include m(992) {
+      margin-top: 78px;
+    }
+  }
+
+  .card-tienda {
+    border-color: $azul-sorsa-02;
+    &::before {
+      content: "\f3c5";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: $azul-sorsa-02;
+      position: absolute;
+      font-size: 60px;
+      right: 30px;
+      bottom: 20px;
+    }
+    @include m(768) {
+      &::before {
+        font-size: 90px;
+      }
+    }
+  }
+
+  //
+  .nosotros-contactanos {
+    &__body {
+      @media (max-width: 767px) {
+        flex-wrap: nowrap;
+      }
+    }
+    &__title {
+      h2 {
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+      }
+    }
+    &__group-btn {
+      @media (max-width: 767px) {
+        justify-content: center;
+      }
+    }
+  }
+}
