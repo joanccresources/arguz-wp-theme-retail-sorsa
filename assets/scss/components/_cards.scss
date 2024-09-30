@@ -1,0 +1,85 @@
+.card-tienda {
+  border: 1px solid $amarillo-sorsa;
+  border-radius: 15px;
+  // padding: 30px;
+  padding-block: 30px;
+  padding-inline: 25px;
+  margin-top: 30px;
+  &__container {
+    max-width: 1024px;
+    margin-inline: 12px;
+    width: calc(100% + -24px);
+    .card-tienda:nth-of-type(1) {
+      margin-top: 0;
+    }
+    @include m(768) {
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+  &__figure {
+    display: block;
+  }
+  &__img {
+    width: 100%;
+    @include m(1024) {
+      width: calc(100% + -60px);
+    }
+  }
+  &__title {
+    margin-top: 20px;
+    a {
+      color: $amarillo-sorsa;
+      font-family: "MonaSans-SemiBold", Sans-serif;
+      // font-size: 40px;
+      font-size: 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-style: italic;
+      line-height: 1em;
+      @include m(768) {
+        // font-size: 30px;
+        font-size: 40px;
+      }
+    }
+    @include m(1024) {
+      margin-top: 0;
+    }
+  }
+  &__description {
+    margin-top: 0.5rem;
+    margin-bottom: 25px;
+    .list-puntos {
+      padding-left: 0;
+      li {
+        list-style: none;
+        display: flex;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: $gris-sorsa-02;
+        &::before {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          margin-right: 8px;
+          color: $azul-sorsa-02;
+        }
+      }
+      .address {
+        &::before {
+          content: "\f3c5";
+        }
+      }
+      .phone {
+        &::before {
+          content: "\f095";
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  @include m(1024) {
+    padding-inline: 30px;
+  }
+}

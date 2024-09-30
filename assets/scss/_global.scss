@@ -87,6 +87,7 @@
   }
   &__description {
     h2 {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       padding-inline: 10px;
       @media (min-width: 768px) {
         padding-inline: 0;
@@ -101,6 +102,52 @@
         height: auto;
       }
     }
+  }
+}
+
+.home-valores {
+  background-color: #014e9c;
+  .content-card-valores {
+    justify-content: center;
+  }
+  .card-valores {
+    width: 280px;
+    max-width: 100%;
+    text-align: center;
+    &__img {
+      height: 77px;
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+    &__desc {
+      color: #fff;
+      line-height: 1.2;
+    }
+    &__title {
+      font-size: 26px;
+      margin-bottom: 0;
+      font-weight: 700;
+      @media (min-width: 1400px) {
+        font-size: 32px;
+      }
+    }
+    &__txtsmall {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    &:nth-last-of-type(1) {
+      .card-valores__img {
+        img {
+          height: 65px;
+        }
+      }
+    }
+  }
+  @media (max-width: 767px) {
+    background-image: none !important;
   }
 }
 

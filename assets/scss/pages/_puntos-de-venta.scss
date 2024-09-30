@@ -1,0 +1,35 @@
+#puntos-de-venta {
+  .suministros-hero {
+    &__img {
+      img {
+        min-height: 452px;
+        @media (min-width: 768px) {
+          min-height: auto;
+        }
+      }
+    }
+    @include m(992) {
+      margin-top: 78px;
+    }
+  }
+
+  .nosotros-contactanos {
+    &__body {
+      @media (max-width: 767px) {
+        flex-wrap: nowrap;
+      }
+    }
+    &__title {
+      h2 {
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+      }
+    }
+    &__group-btn {
+      @media (max-width: 767px) {
+        justify-content: center;
+      }
+    }
+  }
+}
