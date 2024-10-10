@@ -1,3 +1,9 @@
+.no-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important; 
+}
+
 #smooth-wrapper {
   overflow-x: hidden !important;
 }
