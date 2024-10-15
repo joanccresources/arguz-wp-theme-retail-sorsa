@@ -335,7 +335,8 @@ function insertar_reserva_callback(WP_REST_Request $request)
 
 
   // Validar que los campos obligatorios no estén vacíos
-  if (empty($asesor_id) || empty($fecha) || empty($hora_inicio) || empty($nombre_cliente) || empty($correo_cliente)) {
+  // if (empty($asesor_id) || empty($fecha) || empty($hora_inicio) || empty($nombre_cliente) || empty($correo_cliente)) {
+  if (empty($asesor_id) || empty($fecha) || empty($hora_inicio) || empty($nombre_cliente)) {
     return new WP_REST_Response(array('success' => false, 'message' => 'Datos incompletos'), 400);
   }
 
@@ -382,14 +383,15 @@ function insertar_reserva_callback(WP_REST_Request $request)
     }
   }
 
-
+  // CLIENTE: AHORA SE PUEDEN AGENDAR N reservas a la misma hora
+  /*
   // Llamar a la función para verificar disponibilidad
   $disponible = verificar_disponibilidad($asesor_id, $fecha, $hora_inicio, $hora_fin);
   // Si ya existe una reserva, devolver un error
   if (!$disponible) {
     return new WP_REST_Response(array('success' => false, 'message' => 'Ya existe una reserva para este asesor en esta fecha y hora'), 409); // Código 409: conflicto
   }
-
+  */
 
   // Llamar a la función que inserta la reserva
   // $resultado = insertar_reserva($asesor_id, $fecha, $hora_inicio, $hora_fin);
