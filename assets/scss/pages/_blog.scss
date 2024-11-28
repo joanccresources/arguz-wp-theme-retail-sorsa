@@ -20,3 +20,11 @@
     // }
   }
 }
+
+#lo-ultimo {
+  :not(:has(.post-card)) {
+    .noticias-disponibles {
+      display: block !important;
+    }
+  }
+}
