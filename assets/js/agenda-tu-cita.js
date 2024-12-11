@@ -550,6 +550,7 @@
     ];
     const allParamsPresent = requiredParams.every((param) => params.has(param));
 
+    // Si algun parametro no esta incluido entonces salimos
     if (!allParamsPresent) return;
 
     // Si todos los parámetros están presentes, obtener sus valores
@@ -582,11 +583,26 @@
     currentAnoModelo.setAttribute("value", anoModelo);
     currentServicio.setAttribute("value", servicio);
     // currentDescripcion.setAttribute("value", descripcion);
-    setTimeout(() => {
-      // currentDescripcion.value = descripcion;
+
+    // setTimeout(() => {
+    //   document.querySelector("#servicio").value = servicio;
+    //   document.querySelector("#descripcion").value = descripcion;
+    // }, 3000);
+    let i = 0;
+    const interval = setInterval(() => {
+      console.log(servicio, document.querySelector("#servicio").value);
+      console.log(descripcion, document.querySelector("#descripcion").value);
+      // document.querySelector("#servicio").value !== "-" &&
+      //   document.querySelector("#descripcion").value !== ""
+      if (document.querySelector("#servicio").value !== "-") {
+        clearInterval(interval);
+      }
       document.querySelector("#servicio").value = servicio;
       document.querySelector("#descripcion").value = descripcion;
-    }, 3000);
+
+      // if (i > 50) clearInterval(interval);
+      // i++;
+    }, 250);
   };
 
   const validateForm = () => {
@@ -700,5 +716,12 @@
   };
   addEventListener("DOMContentLoaded", () => {
     initDomReady();
+  });
+
+  const initLoadReady = () => {
+    getURLParameters();
+  };
+  addEventListener("load", () => {
+    initLoadReady();
   });
 })();

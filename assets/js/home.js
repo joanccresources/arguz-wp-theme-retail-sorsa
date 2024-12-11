@@ -10,14 +10,32 @@
       const $inputs = $form.querySelectorAll(
         `input:not([type="hidden"],[type="email"],[type="submit"])`
       );
+      const $select = document.querySelector("#servicio");
+
       Array.from($inputs).forEach(($input) => {
         if ($input.value.trim().length === 0) cont++;
       });
 
+      if ($select && $select.value.trim() === "-") cont++;
+
+      // cont es la cantidad de elementos no llenados
       cont > 0
         ? $btnSend.classList.add("no-validate")
         : $btnSend.classList.remove("no-validate");
     };
+
+    // const validateSelect = () => {
+    //   cont = 0;
+    //   const $select = document.querySelector("#servicio");
+
+    //   // si esta vacio(aun no lo llena) sumamos en 1 (hay uno por llenar)
+    //   if ($select.value.trim().length === 0) cont++;
+
+    //   cont > 0
+    //     ? $btnSend.classList.add("no-validate")
+    //     : $btnSend.classList.remove("no-validate");
+    // };
+
     const addEvents = () => {
       const $inputs = $form.querySelectorAll("input");
       Array.from($inputs).forEach(($input) => {
@@ -26,6 +44,13 @@
         $input.addEventListener("focus", validate);
         $input.addEventListener("blur", validate);
       });
+
+      const $select = document.querySelector("#servicio");
+      if ($select) {
+        $select.addEventListener("change", validate);
+        $select.addEventListener("focus", validate);
+        $select.addEventListener("blur", validate);
+      }
     };
 
     validate();
