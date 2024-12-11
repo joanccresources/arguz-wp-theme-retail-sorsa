@@ -8,7 +8,7 @@
     const validate = () => {
       cont = 0;
       const $inputs = $form.querySelectorAll(
-        "input:not([type='hidden'],[type='submit'])"
+        `input:not([type="hidden"],[type="email"],[type="submit"])`
       );
       Array.from($inputs).forEach(($input) => {
         if ($input.value.trim().length === 0) cont++;
@@ -66,13 +66,13 @@
         const fullURL = `${baseURL}?${params.toString()}`;
         location.href = fullURL;
       });
-  }; 
+  };
 
   const initDomReady = () => {
     console.log("Hola Home");
     //
     changeSumitForm();
-    validateForm();    
+    validateForm();
   };
   addEventListener("DOMContentLoaded", () => {
     initDomReady();
