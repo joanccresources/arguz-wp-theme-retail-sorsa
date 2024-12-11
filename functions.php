@@ -78,12 +78,12 @@ function insertar_reserva($asesor_id, $fecha, $hora_inicio, $hora_fin, $nombre_c
   $resultado = $wpdb->insert(
     $tabla_reservas,
     array(
-      'asesor_id'       => $asesor_id,
-      'fecha'           => $fecha,
-      'hora_inicio'     => $hora_inicio,
-      'hora_fin'        => !empty($hora_fin) ? $hora_fin : null, // Inserta null si hora_fin está vacío
-      'nombre_cliente'  => $nombre_cliente,
-      'correo_cliente'  => $correo_cliente,
+      'asesor_id' => $asesor_id,
+      'fecha' => $fecha,
+      'hora_inicio' => $hora_inicio,
+      'hora_fin' => !empty($hora_fin) ? $hora_fin : null, // Inserta null si hora_fin está vacío
+      'nombre_cliente' => $nombre_cliente,
+      'correo_cliente' => $correo_cliente,
     ),
     array('%d', '%s', '%s', '%s', '%s', '%s')  // Formatos: %d para números, %s para strings
   );
@@ -130,7 +130,6 @@ function mostrar_reservas()
   $tabla_reservas = $wpdb->prefix . 'reservas';
   $tabla_asesores = $wpdb->prefix . 'posts';  // Tabla donde están los asesores
 
-
   // Si se envía una solicitud para eliminar una reserva
   if (isset($_GET['eliminar_reserva'])) {
     $reserva_id = intval($_GET['eliminar_reserva']);
@@ -138,70 +137,69 @@ function mostrar_reservas()
     echo '<div class="notice notice-success is-dismissible"><p>Reserva eliminada exitosamente.</p></div>';
   }
 
-  // Obtener el término de búsqueda si está presente
+  // Obtener filtros de búsqueda
   $busqueda = isset($_GET['busqueda']) ? sanitize_text_field($_GET['busqueda']) : '';
+  $fecha_filtro = isset($_GET['fecha']) ? sanitize_text_field($_GET['fecha']) : '';
 
   // Parámetros de paginación
   $results_per_page = 10; // Número de resultados por página
   $current_page = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
   $offset = ($current_page - 1) * $results_per_page;
-  // Consulta SQL para contar el número total de registros
+
+  // Consulta SQL para contar registros
+  $where_clauses = [];
+  $where_params = [];
+
+  if (!empty($busqueda)) {
+    $where_clauses[] = "(a.post_title LIKE %s OR r.nombre_cliente LIKE %s)";
+    $where_params[] = '%' . $wpdb->esc_like($busqueda) . '%';
+    $where_params[] = '%' . $wpdb->esc_like($busqueda) . '%';
+  }
+  if (!empty($fecha_filtro)) {
+    $where_clauses[] = "r.fecha = %s";
+    $where_params[] = $fecha_filtro;
+  }
+
+  $where_sql = !empty($where_clauses) ? 'WHERE ' . implode(' AND ', $where_clauses) : '';
+
   $count_query = "
-      SELECT COUNT(*) 
-      FROM $tabla_reservas r
-      INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
-      WHERE a.post_title LIKE %s OR r.nombre_cliente LIKE %s
-  ";
-  $total_results = $wpdb->get_var($wpdb->prepare($count_query, '%' . $wpdb->esc_like($busqueda) . '%', '%' . $wpdb->esc_like($busqueda) . '%'));
+        SELECT COUNT(*) 
+        FROM $tabla_reservas r
+        INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
+        $where_sql
+    ";
+  $total_results = $wpdb->get_var($wpdb->prepare($count_query, ...$where_params));
   $total_pages = ceil($total_results / $results_per_page);
 
-  // // Consulta SQL
-  // $query = "
-  //     SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
-  //     FROM $tabla_reservas r
-  //     INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
-  //     WHERE a.post_title LIKE %s OR r.nombre_cliente LIKE %s
-  //     ORDER BY r.fecha DESC
-  // ";
-  // // Preparar la consulta
-  // $sql = $wpdb->prepare($query, '%' . $wpdb->esc_like($busqueda) . '%', '%' . $wpdb->esc_like($busqueda) . '%');
-  // // Ejecutar la consulta
-  // $reservas = $wpdb->get_results($sql);
-
-  // Consulta SQL con paginación  
+  // Consulta SQL con paginación
   $query = "
         SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
         FROM $tabla_reservas r
         INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
-        WHERE a.post_title LIKE %s OR r.nombre_cliente LIKE %s
+        $where_sql
         ORDER BY r.fecha DESC
         LIMIT %d OFFSET %d
     ";
-  $sql = $wpdb->prepare($query, '%' . $wpdb->esc_like($busqueda) . '%', '%' . $wpdb->esc_like($busqueda) . '%', $results_per_page, $offset);
+  $where_params[] = $results_per_page;
+  $where_params[] = $offset;
+
+  $sql = $wpdb->prepare($query, ...$where_params);
   $reservas = $wpdb->get_results($sql);
-
-
-  // // Consulta para obtener todas las reservas
-  // $reservas = $wpdb->get_results("
-  //       SELECT r.id, r.fecha, r.hora_inicio, r.hora_fin, r.nombre_cliente, r.correo_cliente, a.post_title AS asesor, a.ID AS asesor_id
-  //       FROM $tabla_reservas r
-  //       INNER JOIN $tabla_asesores a ON r.asesor_id = a.ID
-  //       ORDER BY r.fecha DESC
-  //   ");
 
   echo '<div class="wrap">';
   echo '<h1>Reservas de Asesores</h1>';
 
-  // Formulario de búsqueda
+  // Formulario de búsqueda y filtro por fecha
   echo '<form method="GET" action="" style="text-align: right;margin-bottom: 12px;">';
   echo '<input type="hidden" name="page" value="reservas-asesores">';
-  echo '<input type="text" name="busqueda" value="' . esc_attr($busqueda) . '" placeholder="Buscar por nombre de asesor o cliente"  style="min-width: 200px;">';
-  echo '<input type="submit" value="Buscar" class="button">';
+  echo '<input type="text" name="busqueda" value="' . esc_attr($busqueda) . '" placeholder="Buscar por nombre de asesor o cliente" style="min-width: 200px;">';
+  echo '<input type="date" name="fecha" value="' . esc_attr($fecha_filtro) . '" style="min-width: 150px;">';
+  echo '<input type="submit" value="Filtrar" class="button">';
   echo '</form>';
 
+  // Tabla de resultados
   echo '<table class="widefat fixed" cellspacing="0">';
-  // echo '<thead><tr><th>ID</th><th>Asesor</th><th>Fecha</th><th>Hora Inicio</th><th>Hora Fin</th><th>Ubicación</th><th>Nombre Cliente</th><th>Correo Cliente</th><th>Acciones</th></tr></thead>';
-  echo '<thead><tr><th>ID</th><th>Asesor</th><th>Fecha</th><th>Hora Inicio</th><th>Ubicación</th><th>Nombre Cliente</th><th>Correo Cliente</th><th>Acciones</th></tr></thead>';
+  echo '<thead><tr><th>ID</th><th>Asesor</th><th>Fecha Reservada</th><th>Hora Inicio</th><th>Ubicación</th><th>Nombre Cliente</th><th>Correo Cliente</th><th>Acciones</th></tr></thead>';
   echo '<tbody>';
 
   foreach ($reservas as $reserva) {
@@ -220,34 +218,35 @@ function mostrar_reservas()
     echo '<td><a href="?page=reservas-asesores&eliminar_reserva=' . esc_html($reserva->id) . '" onclick="return confirm(\'¿Estás seguro de que deseas eliminar esta reserva?\');">Eliminar</a></td>';
     echo '</tr>';
   }
-  // echo '</tbody></table></div>';
+
   echo '</tbody></table>';
 
   // Paginación
   echo '<div class="tablenav bottom">';
   echo '<div class="tablenav-pages">';
   echo '<span class="displaying-num">Página ' . $current_page . ' de ' . $total_pages . '</span>';
+
   echo '<style>#sorsa-pagination-links .page-numbers.current{font-weight: bold;font-size: 14px;}</style>';
   echo '<span class="pagination-links" id="sorsa-pagination-links">';
 
   if ($current_page > 1) {
-    echo '<a style="margin-inline:5px;" class="prev page-numbers" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&paged=' . ($current_page - 1) . '">« Anterior</a>';
+    echo '<a style="margin-inline:5px;" class="prev page-numbers" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&fecha=' . esc_attr($fecha_filtro) . '&paged=' . ($current_page - 1) . '">« Anterior</a>';
   }
 
   for ($i = 1; $i <= $total_pages; $i++) {
-    echo '<a style="margin-inline:5px;" class="page-numbers' . ($i == $current_page ? ' current' : '') . '" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&paged=' . $i . '">' . $i . '</a>';
+    echo '<a style="margin-inline:5px;" class="page-numbers' . ($i == $current_page ? ' current' : '') . '" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&fecha=' . esc_attr($fecha_filtro) . '&paged=' . $i . '">' . $i . '</a>';
   }
 
   if ($current_page < $total_pages) {
-    echo '<a style="margin-inline:5px;" class="next page-numbers" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&paged=' . ($current_page + 1) . '">Siguiente »</a>';
+    echo '<a style="margin-inline:5px;" class="next page-numbers" href="?page=reservas-asesores&busqueda=' . esc_attr($busqueda) . '&fecha=' . esc_attr($fecha_filtro) . '&paged=' . ($current_page + 1) . '">Siguiente »</a>';
   }
-
   echo '</span>';
   echo '</div>';
   echo '</div>';
 
   echo '</div>';
 }
+
 
 
 
@@ -400,7 +399,7 @@ function insertar_reserva_callback(WP_REST_Request $request)
   if ($resultado) {
     return new WP_REST_Response(array('success' => true, 'message' => 'Reserva insertada con éxito'), 200);
   } else {
-    return new WP_REST_Response(array('success' => false, 'message' => 'Error al insertar la reserva' . ' - ' .  print_r($resultado)), 500);
+    return new WP_REST_Response(array('success' => false, 'message' => 'Error al insertar la reserva' . ' - ' . print_r($resultado)), 500);
   }
 }
 
