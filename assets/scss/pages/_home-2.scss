@@ -258,7 +258,7 @@
         width: 90%;
       }
     }
-    .formulario-agenda {      
+    .formulario-agenda {
       // titulo
       &__title {
         font-size: 24px;
@@ -283,6 +283,14 @@
         background-color: $amarillo-sorsa;
         border-color: $amarillo-sorsa;
         color: white;
+      }
+    }
+  }
+
+  .card-productos {
+    &__figure {
+      img{
+        max-height: 309px;
       }
     }
   }

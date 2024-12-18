@@ -96,4 +96,98 @@
       }
     }
   }
+
+  .project-card {
+    display: flex;
+    position: relative;   
+
+    &__body {
+      transition: all .35s;
+      background-color: rgba(0, 0, 0, 0.25);
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9;
+    }
+    &__title {
+      max-width: 100%;
+      font-size: 36px;
+      color: #fff;
+      transform: skewX(-7deg);
+      text-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+      @media (max-width: 1199px) {
+        font-size: 28px;
+      }
+    }
+    &__group {
+      margin-top: 1rem;
+    }
+    &__btn {
+      background-color: #ff9600;
+      border-radius: 20px;
+      color: #fff;
+      padding: 10px 30px;
+      display: inline-flex;
+      font-weight: bold;
+    }
+
+    &:hover {
+      .project-card__body {
+        background-color: rgb(21 78 134 / 75%);
+      }
+    }
+  }
+
+  .btn-sorsa-yellow {
+    a {
+      animation: none !important;
+      transform: none !important;
+      fill: #fff !important;
+      border-style: solid !important;
+      border-width: 2px 2px 2px 2px !important;
+      border-color: #f09b1a !important;
+      border-radius: 50rem 50rem 50rem 50rem !important;
+      padding: 10px 35px 10px 35px !important;
+      background-color: #f09b1a !important;
+
+      font-size: 28px;
+      padding-inline: 100px !important;
+      span {
+        animation: none !important;
+        color: #fff;
+      }
+      &::before {
+        position: absolute;
+        content: "";
+        top: -2px;
+        left: 10%;
+        width: 80%;
+        height: 2px;
+        background-image: linear-gradient(
+          to right,
+          transparent,
+          #fff,
+          transparent
+        );
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        bottom: -2px;
+        left: 10%;
+        width: 80%;
+        height: 2px;
+        background-image: linear-gradient(
+          to right,
+          transparent,
+          #fff,
+          transparent
+        );
+      }
+    }
+  }
 }

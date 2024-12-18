@@ -31,8 +31,8 @@ function artech_child_theme_styles()
   wp_enqueue_style('artech-child-style', get_stylesheet_uri(), array('artech-parent-style'));
 }
 
-require_once get_stylesheet_directory() . '/shortcodes/shortcode-home.php';
-require_once get_stylesheet_directory() . '/shortcodes/shortcode-talleres.php';
+/* SHORTCODES */
+require_once get_stylesheet_directory() . '/shortcodes/load-shortcodes.php';
 
 // 
 require_once get_stylesheet_directory() . '/helpers/agenda/talleres.php';
